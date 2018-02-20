@@ -1,0 +1,46 @@
+.Event .tabs-selector {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  border-bottom: 1px solid black;
+}
+
+.Event .tabs-selector li {
+  border: 1px solid black;
+  border-bottom: none;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: #eee;
+  padding: 8px;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.Event .tabs-selector li.active {
+  background-color: #ccc;
+}
+
+.Event .form-field {
+  min-height: 70px;
+}
+
+.Event .form-field input {
+  padding: 4px;
+  margin: 6px;
+  border-radius: 7px;
+}
+
+.Event .form-field .invalid-field-warning {
+  border: 1px solid #f80;
+  color: #c30;
+  max-width: 40vw;
+  margin: 0 auto;
+}
+
+.Event .form-field select {
+  padding: 4px;
+  margin: 6px;
+  border-radius: 7px;
+  background-color: white;
+}
