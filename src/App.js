@@ -11,6 +11,8 @@ class App extends Component {
     eventType: '',
 
     shoppingList: [],
+
+    invites: [],
   }
 
   setTab = ({ target: { value } })=> this.setState({ currentTab: value })
@@ -49,12 +51,18 @@ class App extends Component {
       )
     }) )
   }
+
+  addInvite = ()=>
+    this.setState(state => ({
+      invites: state.invites.concat({ to: '', status: 'no rsvp' })
+    }) )
   
   render() {
     const {
       tabs=[], currentTab=0,
       name, imgSrc, eventType,
-      shoppingList,
+      shoppingList=[],
+      invites=[],
     } = this.state;
     
     return (
@@ -110,7 +118,16 @@ class App extends Component {
             
           ) : (currentTab === 2) ? (
             <div className='invitations'>
-              
+              <ul>
+                {
+                  invites.map( ({ to, status }, ii)=> (
+                    <li key={ii}>
+                      <input/>
+                      <select/>
+                    </li>
+                  ))
+                }
+              </ul>
             </div>
           ) : null
         }
