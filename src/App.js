@@ -32,37 +32,8 @@ class App extends Component {
   
   setEventType = ({ target: { value } })=> this.setState({ eventType: value })
 
-  addShoppingItem = ()=>
-    this.setState(state => ({
-      shoppingList: state.shoppingList.concat({ item: '', quantity: 0 }),
-    }) )
-
-  removeShoppingItem = ({ target: { value } })=>
-    this.setState(state => ({
-      shoppingList: state.shoppingList.slice(0, value*1)
-                         .concat( state.shoppingList.slice( value*1 +1 ) ),
-    }) )
+  onChangeShoppingList = shoppingList => this.setState({ shoppingList })
   
-  setListItem = ({ target: { value, id } })=> {
-    const index = parseInt(id, 10);
-    
-    this.setState(state => ({
-      shoppingList: state.shoppingList.map( (listItem, sli)=>
-        (sli !== index) ? listItem : {...listItem, item: value}
-      ),
-    }) );
-  }
-
-  setListQuantity = ({ target: { value, id } })=> {
-    const index = parseInt(id, 10);
-    
-    this.setState(state => ({
-      shoppingList: state.shoppingList.map( (listItem, sli)=>
-        (sli !== index) ? listItem : {...listItem, quantity: value}
-      ),
-    }) );
-  }
-
   onChangeInvites = invites => this.setState({ invites })
   
   render() {
@@ -97,11 +68,8 @@ class App extends Component {
                    eventType={eventType}/>
             
           ) : (currentTab === 1) ? (
-            <ShoppingList addShoppingItem={this.addShoppingItem}
-                          shoppingList={shoppingList}
-                          setListItem={this.setListItem}
-                          setListQuantity={this.setListQuantity}
-                          removeShoppingItem={this.removeShoppingItem}/>
+            <ShoppingList shoppingList={shoppingList}
+                          onChange={this.onChangeShoppingList}/>
           ) : (currentTab === 2) ? (
             <Invites invites={invites}
                      onChange={this.onChangeInvites}/>
