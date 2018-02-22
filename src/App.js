@@ -20,7 +20,6 @@ class App extends Component {
     shoppingList: [],
 
     invites: [],
-    newInvite: '',
   }
 
   setTab = ({ target: { value } })=> this.setState({ currentTab: value })
@@ -64,32 +63,14 @@ class App extends Component {
     }) );
   }
 
-  setNewInvite = ({ target: { value } })=> this.setState({ newInvite: value })
-  
-  addInvite = ()=>
-    this.state.invites.find(({ to })=> to === this.state.newInvite) || (
-      this.setState(state => ({
-        invites: state.invites.concat({ to: state.newInvite, status: '' }),
-        newInvite: '',
-      }) ) )
-
-  rsvp = ({ target: { value, id } })=> {
-    const index = parseInt(id, 10);
-    
-    this.setState(state => ({
-      invites: state.invites.map( (invite, ii)=>
-        (index !== ii) ? invite : ({
-          ...invite, status: value,
-        }) ),
-    }) );
-  }
+  onChangeInvites = invites => this.setState({ invites })
   
   render() {
     const {
       tabs=[], currentTab=0,
       name, imgSrc, imgSrcValid, eventType,
       shoppingList=[],
-      invites=[], newInvite='',
+      invites=[],
     } = this.state;
     
     return (
@@ -122,11 +103,8 @@ class App extends Component {
                           setListQuantity={this.setListQuantity}
                           removeShoppingItem={this.removeShoppingItem}/>
           ) : (currentTab === 2) ? (
-            <Invites setNewInvite={this.setNewInvite}
-                     newInvite={newInvite}
-                     invites={invites}
-                     addInvite={this.addInvite}
-                     rsvp={this.rsvp}/>
+            <Invites invites={invites}
+                     onChange={this.onChangeInvites}/>
           ) : null
         }
       </div>
