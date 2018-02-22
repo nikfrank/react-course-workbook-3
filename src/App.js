@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import Promo from './Promo';
+import ShoppingList from './ShoppingList';
+import Invites from './Invites';
+
 const imageUrlRegex = /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/i;
 
 class App extends Component {
@@ -103,75 +107,26 @@ class App extends Component {
         </ul>
         {
           (currentTab === 0) ? (
-            <div className='promo-tab form-field'>
-              <label htmlFor='name'>Name</label>
-              <input id='name' value={name} onChange={this.setName}/>
-
-              <label htmlFor='imgSrc'>Picture url</label>
-              <input id='imgSrc' value={imgSrc} onChange={this.setImgSrc}/>
-
-              <label htmlFor='eventType'>Event Type</label>
-              <input id='eventType' value={eventType} onChange={this.setEventType}/>
-
-              {imgSrcValid && (<img src={imgSrc} alt='event'/>)}
-            </div>
+            <Promo setName={this.setName}
+                   name={name}
+                   setImgSrc={this.setImgSrc}
+                   imgSrc={imgSrc}
+                   imgSrcValid={imgSrcValid}
+                   setEventType={this.setEventType}
+                   eventType={eventType}/>
             
           ) : (currentTab === 1) ? (
-            <div className='shopping-list form-field'>
-              <button onClick={this.addShoppingItem} className='add'>+</button>
-              <ul>
-                {
-                  shoppingList.map( ({ item, quantity }, sli)=> (
-                    <li key={sli}>
-                      <label htmlFor={`${sli}-sli-item`}>item</label>
-                      <input id={`${sli}-sli-item`}
-                             value={item}
-                             onChange={this.setListItem}/>
-
-                      <label htmlFor={`${sli}-sli-quantity`}>quantity</label>
-                      <input id={`${sli}-sli-quantity`}
-                             value={quantity}
-                             type='number'
-                             min={0}
-                             onChange={this.setListQuantity}/>
-
-                      <button value={sli}
-                              onClick={this.removeShoppingItem}
-                              className='remove'>
-                        X
-                      </button>
-                    </li>
-                  ) )
-                }
-              </ul>
-            </div>
-            
+            <ShoppingList addShoppingItem={this.addShoppingItem}
+                          shoppingList={shoppingList}
+                          setListItem={this.setListItem}
+                          setListQuantity={this.setListQuantity}
+                          removeShoppingItem={this.removeShoppingItem}/>
           ) : (currentTab === 2) ? (
-            <div className='invitations form-field'>
-              <label htmlFor='new-invite'>New invite - To</label>
-              <input value={newInvite} onChange={this.setNewInvite} id='new-invite'/>
-              <button onClick={this.addInvite}
-                      disabled={!newInvite}
-                      className='add'>
-                +
-              </button>
-              
-              <ul>
-                {
-                  invites.map( ({ to, status }, ii)=> (
-                    <li key={ii}>
-                      To: {to}
-                      <select value={status} id={`${ii}-rsvp`}
-                              onChange={this.rsvp}>
-                        <option value=''>No RSVP</option>
-                        <option value='confirmed'>Confirmed</option>
-                        <option value='Maybe'>Maybe</option>
-                      </select>
-                    </li>
-                  ))
-                }
-              </ul>
-            </div>
+            <Invites setNewInvite={this.setNewInvite}
+                     newInvite={newInvite}
+                     invites={invites}
+                     addInvite={this.addInvite}
+                     rsvp={this.rsvp}/>
           ) : null
         }
       </div>
