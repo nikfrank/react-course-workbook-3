@@ -13,6 +13,7 @@ class App extends Component {
     shoppingList: [],
 
     invites: [],
+    newInvite: '',
   }
 
   setTab = ({ target: { value } })=> this.setState({ currentTab: value })
@@ -23,13 +24,13 @@ class App extends Component {
 
   addShoppingItem = ()=>
     this.setState(state => ({
-      shoppingList: state.shoppingList.concat({ item: '', quantity: 0 })
+      shoppingList: state.shoppingList.concat({ item: '', quantity: 0 }),
     }) )
 
   removeShoppingItem = ({ target: { value } })=>
     this.setState(state => ({
       shoppingList: state.shoppingList.slice(0, value*1)
-                         .concat( state.shoppingList.slice( value*1 +1 ) )
+                         .concat( state.shoppingList.slice( value*1 +1 ) ),
     }) )
   
   setListItem = ({ target: { value, id } })=> {
@@ -38,8 +39,8 @@ class App extends Component {
     this.setState(state => ({
       shoppingList: state.shoppingList.map( (listItem, sli)=>
         (sli !== index) ? listItem : {...listItem, item: value}
-      )
-    }) )
+      ),
+    }) );
   }
 
   setListQuantity = ({ target: { value, id } })=> {
@@ -48,21 +49,35 @@ class App extends Component {
     this.setState(state => ({
       shoppingList: state.shoppingList.map( (listItem, sli)=>
         (sli !== index) ? listItem : {...listItem, quantity: value}
-      )
-    }) )
+      ),
+    }) );
   }
 
+  setNewInvite = ({ target: { value } })=> this.setState({ newInvite: value })
+  
   addInvite = ()=>
     this.setState(state => ({
-      invites: state.invites.concat({ to: '', status: 'no rsvp' })
+      invites: state.invites.concat({ to: state.newInvite, status: '' }),
+      newInvite: '',
     }) )
+
+  rsvp = ({ target: { value, id } })=> {
+    const index = parseInt(id, 10);
+    
+    this.setState(state => ({
+      invites: state.invites.map( (invite, ii)=>
+        (index !== ii) ? invite : ({
+          ...invite, status: value,
+        }) ),
+    }) );
+  }
   
   render() {
     const {
       tabs=[], currentTab=0,
       name, imgSrc, eventType,
       shoppingList=[],
-      invites=[],
+      invites=[], newInvite='',
     } = this.state;
     
     return (
@@ -118,12 +133,21 @@ class App extends Component {
             
           ) : (currentTab === 2) ? (
             <div className='invitations'>
+              <label htmlFor='new-invite'>New invite - To</label>
+              <input value={newInvite} onChange={this.setNewInvite} id='new-invite'/>
+              <button onClick={this.addInvite}>+</button>
+              
               <ul>
                 {
                   invites.map( ({ to, status }, ii)=> (
                     <li key={ii}>
-                      <input/>
-                      <select/>
+                      To: {to}
+                      <select value={status} id={`${ii}-rsvp`}
+                              onChange={this.rsvp}>
+                        <option value=''>No RSVP</option>
+                        <option value='confirmed'>Confirmed</option>
+                        <option value='Maybe'>Maybe</option>
+                      </select>
                     </li>
                   ))
                 }
