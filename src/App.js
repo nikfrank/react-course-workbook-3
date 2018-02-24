@@ -63,10 +63,10 @@ class App extends Component {
             <ShoppingList shoppingList={shoppingList}
                           onChange={this.onChangeShoppingList}/>
 
-          ) : (currentTab === 2) ? (
+          ) : (currentTab === 2) && (
             <Invites invites={invites}
                      onChange={this.onChangeInvites}/>
-          ) : null
+          )
         }
       </div>
     );

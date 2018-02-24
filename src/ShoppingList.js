@@ -29,7 +29,6 @@ export default class ShoppingList extends Component {
       )
     )
   }
-
   
   render(){
     const { shoppingList } = this.props;
