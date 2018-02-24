@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+const imageUrlRegex = /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/i;
+
 class App extends Component {
   state = {
     currentTab: 0,
@@ -8,6 +10,7 @@ class App extends Component {
 
     name: '',
     imgSrc: '',
+    imgSrcValid: false,
     eventType: '',
 
     shoppingList: [],
@@ -19,7 +22,11 @@ class App extends Component {
   setTab = ({ target: { value } })=> this.setState({ currentTab: value })
 
   setName = ({ target: { value } })=> this.setState({ name: value })
-  setImgSrc = ({ target: { value } })=> this.setState({ imgSrc: value })
+  setImgSrc = ({ target: { value } })=> this.setState({
+    imgSrc: value,
+    imgSrcValid: imageUrlRegex.exec(value)
+  })
+  
   setEventType = ({ target: { value } })=> this.setState({ eventType: value })
 
   addShoppingItem = ()=>
@@ -56,10 +63,11 @@ class App extends Component {
   setNewInvite = ({ target: { value } })=> this.setState({ newInvite: value })
   
   addInvite = ()=>
-    this.setState(state => ({
-      invites: state.invites.concat({ to: state.newInvite, status: '' }),
-      newInvite: '',
-    }) )
+    this.state.invites.find(({ to })=> to === this.state.newInvite) || (
+      this.setState(state => ({
+        invites: state.invites.concat({ to: state.newInvite, status: '' }),
+        newInvite: '',
+      }) ) )
 
   rsvp = ({ target: { value, id } })=> {
     const index = parseInt(id, 10);
@@ -75,7 +83,7 @@ class App extends Component {
   render() {
     const {
       tabs=[], currentTab=0,
-      name, imgSrc, eventType,
+      name, imgSrc, imgSrcValid, eventType,
       shoppingList=[],
       invites=[], newInvite='',
     } = this.state;
@@ -95,7 +103,7 @@ class App extends Component {
         </ul>
         {
           (currentTab === 0) ? (
-            <div className='promo-tab'>
+            <div className='promo-tab form-field'>
               <label htmlFor='name'>Name</label>
               <input id='name' value={name} onChange={this.setName}/>
 
@@ -104,11 +112,13 @@ class App extends Component {
 
               <label htmlFor='eventType'>Event Type</label>
               <input id='eventType' value={eventType} onChange={this.setEventType}/>
+
+              {imgSrcValid && (<img src={imgSrc} alt='event'/>)}
             </div>
             
           ) : (currentTab === 1) ? (
-            <div className='shopping-list'>
-              <button onClick={this.addShoppingItem}>+</button>
+            <div className='shopping-list form-field'>
+              <button onClick={this.addShoppingItem} className='add'>+</button>
               <ul>
                 {
                   shoppingList.map( ({ item, quantity }, sli)=> (
@@ -122,9 +132,14 @@ class App extends Component {
                       <input id={`${sli}-sli-quantity`}
                              value={quantity}
                              type='number'
+                             min={0}
                              onChange={this.setListQuantity}/>
 
-                      <button value={sli} onClick={this.removeShoppingItem}>X</button>
+                      <button value={sli}
+                              onClick={this.removeShoppingItem}
+                              className='remove'>
+                        X
+                      </button>
                     </li>
                   ) )
                 }
@@ -132,10 +147,14 @@ class App extends Component {
             </div>
             
           ) : (currentTab === 2) ? (
-            <div className='invitations'>
+            <div className='invitations form-field'>
               <label htmlFor='new-invite'>New invite - To</label>
               <input value={newInvite} onChange={this.setNewInvite} id='new-invite'/>
-              <button onClick={this.addInvite}>+</button>
+              <button onClick={this.addInvite}
+                      disabled={!newInvite}
+                      className='add'>
+                +
+              </button>
               
               <ul>
                 {

@@ -21,14 +21,23 @@
   background-color: #ccc;
 }
 
+.Event img {
+  display: block;
+}
+
 .Event .form-field {
   min-height: 70px;
+}
+
+.Event .form-field > label {
+  display: block;
 }
 
 .Event .form-field input {
   padding: 4px;
   margin: 6px;
   border-radius: 7px;
+  outline: none;
 }
 
 .Event .form-field .invalid-field-warning {
@@ -38,9 +47,23 @@
   margin: 0 auto;
 }
 
-.Event .form-field select {
+.Event .form-field select,
+.Event .form-field button {
   padding: 4px;
   margin: 6px;
   border-radius: 7px;
   background-color: white;
+  outline: none;
+}
+
+.Event .form-field button.add {
+  background-color: #3c3;
+  color: white;
+  font-weight: bold;
+}
+
+.Event .form-field button.remove {
+  background-color: #c33;
+  color: white;
+  font-weight: bold;
 }
