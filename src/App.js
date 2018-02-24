@@ -5,8 +5,6 @@ import Promo from './Promo';
 import ShoppingList from './ShoppingList';
 import Invites from './Invites';
 
-const imageUrlRegex = /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/i;
-
 class App extends Component {
   state = {
     currentTab: 0,
@@ -14,7 +12,6 @@ class App extends Component {
 
     name: '',
     imgSrc: '',
-    imgSrcValid: false,
     eventType: '',
 
     shoppingList: [],
@@ -24,13 +21,9 @@ class App extends Component {
 
   setTab = ({ target: { value } })=> this.setState({ currentTab: value })
 
-  setName = ({ target: { value } })=> this.setState({ name: value })
-  setImgSrc = ({ target: { value } })=> this.setState({
-    imgSrc: value,
-    imgSrcValid: imageUrlRegex.exec(value)
-  })
-  
-  setEventType = ({ target: { value } })=> this.setState({ eventType: value })
+  setName = value=> this.setState({ name: value })
+  setImgSrc = value=> this.setState({ imgSrc: value })
+  setEventType = value=> this.setState({ eventType: value })
 
   onChangeShoppingList = shoppingList => this.setState({ shoppingList })
   
@@ -39,7 +32,7 @@ class App extends Component {
   render() {
     const {
       tabs=[], currentTab=0,
-      name, imgSrc, imgSrcValid, eventType,
+      name, imgSrc, eventType,
       shoppingList=[],
       invites=[],
     } = this.state;
@@ -63,7 +56,6 @@ class App extends Component {
                    name={name}
                    setImgSrc={this.setImgSrc}
                    imgSrc={imgSrc}
-                   imgSrcValid={imgSrcValid}
                    setEventType={this.setEventType}
                    eventType={eventType}/>
             
