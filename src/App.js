@@ -62,6 +62,7 @@ class App extends Component {
           ) : (currentTab === 1) ? (
             <ShoppingList shoppingList={shoppingList}
                           onChange={this.onChangeShoppingList}/>
+
           ) : (currentTab === 2) ? (
             <Invites invites={invites}
                      onChange={this.onChangeInvites}/>
