@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 const imageUrlRegex = /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/i;
 
 export default class Promo extends Component {
-  state = { imgSrcValid: false }
+  state = { imgSrcValid: imageUrlRegex.exec(this.props.imgSrc) }
 
   setImgSrc = ({ target: { value } })=> {
     this.setState({ imgSrcValid: imageUrlRegex.exec(value) });
