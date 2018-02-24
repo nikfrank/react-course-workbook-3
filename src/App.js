@@ -21,9 +21,9 @@ class App extends Component {
 
   setTab = ({ target: { value } })=> this.setState({ currentTab: value })
 
-  setName = value=> this.setState({ name: value })
-  setImgSrc = value=> this.setState({ imgSrc: value })
-  setEventType = value=> this.setState({ eventType: value })
+  setName = name=> this.setState({ name })
+  setImgSrc = imgSrc=> this.setState({ imgSrc })
+  setEventType = eventType=> this.setState({ eventType })
 
   onChangeShoppingList = shoppingList => this.setState({ shoppingList })
   
